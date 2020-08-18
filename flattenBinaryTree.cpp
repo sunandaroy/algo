@@ -1,9 +1,9 @@
-#given a binary tree flatten it and make a linkedlist out of it.
-#concept: while traversing each node, connect this node with it's left and right pointer. 
-# node's left pointer = node's let subtree's right most node 
-#node's right pointer = node's right subtree's left most node
-#T(n) = o(n)
-#space complexity = o(depth of the tree)
+//given a binary tree flatten it and make a linkedlist out of it.
+//concept: while traversing each node, connect this node with it's left and right pointer. 
+// node's left pointer = node's let subtree's right most node 
+//node's right pointer = node's right subtree's left most node
+// T(n) = o(n)
+//space complexity = o(depth of the tree)
 public:
   int value;
   BinaryTree *left = NULL;

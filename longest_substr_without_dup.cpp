@@ -1,9 +1,8 @@
 using namespace std;
-# longest substring without duplication
-# Time complexity = O(n)
-# Space Complexity = O(d) where d = maximum number of unique letters present in the string, which is maximum 26
+// longest substring without duplication
+// Time complexity = O(n)
+// Space Complexity = O(d) where d = maximum number of unique letters present in the string, which is maximum 26
 string longestSubstringWithoutDuplication(string str) {
-  // Write your code here.
 	unordered_map<char, int> um;
 	int longestString[2];
 	longestString[0] = 0; //start index of longest string
