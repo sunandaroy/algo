@@ -1,0 +1,68 @@
+//find the k'th largest element from a row wise sorted and column wise sorted matrix
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX 1000
+int mat[MAX][MAX];
+int kthSmallest(int mat[MAX][MAX], int n, int k);
+// driver program to test above function
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+    
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                cin>>mat[i][j];
+        int r;
+        cin>>r;
+        cout<<kthSmallest(mat,n,r)<<endl;
+    }
+     // cout << "7th smallest element is " << kthSmallest(mat, 4, 7);
+      return 0;
+}
+
+struct element{
+    int r;
+    int c;
+    int val;
+};
+bool compare_func(struct element a, struct element b){
+    return a.val > b.val;
+}
+
+int kthSmallest(int mat[MAX][MAX], int n, int k)
+{
+  //Your code here
+  vector<element> heap_arr;
+  for(int i=0; i< n; i++){
+      struct element e;
+      e.r = i;
+      e.c = 0;
+      e.val = mat[i][0];
+      heap_arr.push_back(e);
+  }
+  make_heap(heap_arr.begin(), heap_arr.end(), compare_func);
+  int i = 1;
+  struct element kth_small_element;
+  while(i <= k){
+      pop_heap(heap_arr.begin(), heap_arr.end(), compare_func);
+      kth_small_element = heap_arr.back();
+      //cout << "value is" << kth_small_element.val;
+      heap_arr.pop_back();
+      if(kth_small_element.c < n-1){
+          struct element new_elem;
+           new_elem.r = kth_small_element.r;
+           new_elem.c = kth_small_element.c + 1;
+           new_elem.val = mat[new_elem.r][new_elem.c];
+           heap_arr.push_back(new_elem);
+           push_heap(heap_arr.begin(), heap_arr.end(), compare_func);
+      }
+      i++;
+  }
+ 
+  return kth_small_element.val;
+}
