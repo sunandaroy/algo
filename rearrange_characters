@@ -1,0 +1,93 @@
+//You are required to complete the method rearrangeString() which takes 1 argument and returns the string without any same adjacent character
+#include<bits/stdc++.h>
+using namespace std;
+const int MAX_CHAR = 26;
+
+//construct a max heap based on the frequency;
+struct element{
+    char character;
+    int freq;
+};
+
+typedef struct element element;
+
+bool compFunc(element e1, element e2){
+    return e1.freq < e2.freq;
+}
+
+string rearrangeString(string str){
+	// Your code here
+	if(str.length() == 0 || str.length() == 1)
+	    return str;
+	    
+	vector<element> heap_arr;
+	unordered_map<char, int> umap;
+    for(int i=0; i < str.length(); i++){
+        if(umap.find(str[i]) != umap.end())
+            umap[str[i]] = umap[str[i]] + 1;
+        else
+            umap[str[i]] = 1;
+    }
+    
+   while(!umap.empty()){
+        unordered_map<char, int>:: iterator itr;
+        itr = umap.begin();
+        element *elem = new element;
+        elem->character = itr->first;
+        elem->freq = itr->second;
+        heap_arr.push_back(*elem);
+        umap.erase(umap.begin());
+    }
+    string resultStr = "";
+    make_heap(heap_arr.begin(), heap_arr.end(), compFunc);
+    element *pushElement = NULL;
+    element *poppedElement = NULL;
+    while(!heap_arr.empty()){
+       pop_heap(heap_arr.begin(), heap_arr.end(), compFunc);
+       poppedElement = new element();
+       *poppedElement = heap_arr.back();
+       heap_arr.pop_back();
+       if(pushElement){
+           heap_arr.push_back(*pushElement);
+           push_heap(heap_arr.begin(), heap_arr.end(), compFunc);
+       }
+       resultStr += poppedElement->character;
+       if(poppedElement->freq > 1){
+           poppedElement->freq -= 1;
+           pushElement = poppedElement;
+       }else{
+           pushElement = NULL;
+       }
+    }
+    if(pushElement != NULL)
+        resultStr = str;
+    return resultStr;
+}
+
+
+int main()
+{
+	int t;
+	cin>>t;
+	cin.ignore(INT_MAX, '\n');
+	while(t--)
+	{
+	    string str;
+	    cin>>str;
+	    str = rearrangeString(str);
+	    int flag = 1;
+	    if(str != "-1"){
+    	for(int i=1;i<str.length();i++){
+    		if(str[i-1]==str[i])
+    			flag=0;
+	    }
+    	if(flag == 1)
+    		cout<<"1\n";
+    	else
+    	    cout<<"0\n";
+	    }
+	    else
+	        cout<<"0\n";
+	}
+return 0;
+}
